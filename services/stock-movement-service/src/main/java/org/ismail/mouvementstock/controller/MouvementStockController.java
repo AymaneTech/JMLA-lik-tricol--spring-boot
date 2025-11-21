@@ -6,6 +6,8 @@ import org.ismail.mouvementstock.dto.MouvementStockRequestDTO;
 import org.ismail.mouvementstock.dto.MouvementStockResponseDTO;
 import org.ismail.mouvementstock.model.TypeMouvement;
 import org.ismail.mouvementstock.service.MouvementStockService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,17 +30,17 @@ public class MouvementStockController {
 
     @Tag(name = "Get All Mouvements", description = "Retrieve a list of all stock movements")
     @GetMapping
-    public ResponseEntity<List<MouvementStockResponseDTO>> getAllMouvements() {
-        List<MouvementStockResponseDTO> mouvements = mouvementStockService.getAllMouvements();
+    public ResponseEntity<Page<MouvementStockResponseDTO>> getAllMouvements() {
+        Page<MouvementStockResponseDTO> mouvements = mouvementStockService.getAllMouvements(PageRequest.of(0, 10));
         return ResponseEntity.ok(mouvements);
     }
 
-    @Tag(name = "Find Mouvement by ID", description = "Retrieve a stock movement using its unique ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<MouvementStockResponseDTO> getMouvementById(@PathVariable Long id) {
-        MouvementStockResponseDTO responseDTO = mouvementStockService.getMouvementById(id);
-        return ResponseEntity.ok(responseDTO);
-    }
+//    @Tag(name = "Find Mouvement by ID", description = "Retrieve a stock movement using its unique ID")
+//    @GetMapping("/{id}")
+//    public ResponseEntity<MouvementStockResponseDTO> getMouvementById(@PathVariable Long id) {
+//        MouvementStockResponseDTO responseDTO = mouvementStockService.getMouvementById(id);
+//        return ResponseEntity.ok(responseDTO);
+//    }
 
     @Tag(name = "Get Mouvements by Product", description = "Retrieve all stock movements for a specific product")
     @GetMapping("/produit/{produitId}")
