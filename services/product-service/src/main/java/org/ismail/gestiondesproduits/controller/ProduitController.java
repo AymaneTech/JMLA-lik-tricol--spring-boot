@@ -1,42 +1,32 @@
 package org.ismail.gestiondesproduits.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.ismail.gestiondesproduits.dto.AddQuantityRequestDTO;
 import org.ismail.gestiondesproduits.dto.ProduitDTO;
 import org.ismail.gestiondesproduits.dto.ReduceQuantityDTO;
 import org.ismail.gestiondesproduits.mapper.ProduitMapper;
 import org.ismail.gestiondesproduits.model.Produit;
 import org.ismail.gestiondesproduits.service.ProduitService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 public class ProduitController {
 
-    @Autowired
-    public ProduitService produitService;
-
-    @Autowired
-    public ProduitMapper produitMapper;
+    private final ProduitService produitService;
+    private final ProduitMapper produitMapper;
 
     @Tag(name = "Create Product", description = "Create a new product by providing product details")
     @PostMapping
     public Produit creatProduit(@RequestBody ProduitDTO p) {
-        try {
-            System.out.println(p);
-            Produit pr = produitMapper.dtoToEntity(p);
-            return produitService.save(pr);
-        } catch (Exception e) {
-            System.out.println("Erreur lors de la création du produit: " + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+        Produit pr = produitMapper.dtoToEntity(p);
+        return produitService.save(pr);
     }
 
     @Tag(name = "Find Product by ID", description = "Retrieve a product using its unique ID")
@@ -60,7 +50,6 @@ public class ProduitController {
     @Tag(name = "Update Product", description = "Update an existing product by providing the updated product details")
     @PutMapping
     public Produit update(Produit p) {
-
         return produitService.update(p);
     }
 
@@ -69,32 +58,23 @@ public class ProduitController {
     public ResponseEntity<Produit> addQuantity(
             @PathVariable("id") Long productId,
             @RequestBody AddQuantityRequestDTO request) {
-        try {
-            Produit updatedProduit = produitService.addQuantity(
+        Produit updatedProduit = produitService.addQuantity(
                 productId,
-                request.getQuantityToAdd(),
-                request.getPrixAchat()
-            );
-            return ResponseEntity.ok(updatedProduit);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (Exception e) {
-            System.err.println("Erreur lors de l'ajout de quantité: " + e.getMessage());
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+                request.quantiteAjouter(),
+                request.prixAchat()
+        );
+        return ResponseEntity.ok(updatedProduit);
     }
-
 
     @Tag(name = "Reduce Quantity", description = "Reduce quantity from an existing product")
     @PatchMapping("/reduce-quantity/{id}")
-    public boolean reduceQuantity(
+    public ResponseEntity<Produit> reduceQuantity(
             @PathVariable("id") Long productId,
             @RequestBody ReduceQuantityDTO request) {
-            Produit updatedProduit = produitService.reduceQuantity(
+        Produit updatedProduit = produitService.reduceQuantity(
                 productId,
-                request.getQuantityToReduce()
-            );
-            return updatedProduit != null;
+                request.quantityToReduce()
+        );
+        return ResponseEntity.ok(updatedProduit);
     }
 }
