@@ -1,4 +1,4 @@
-package org.ismail.gestiondescommmendsfournisseurspringboot.Enum;
+package org.ismail.gestiondescommmendsfournisseurspringboot.enums;
 
 public enum CommendeStatus {
     EN_ATTENTE,

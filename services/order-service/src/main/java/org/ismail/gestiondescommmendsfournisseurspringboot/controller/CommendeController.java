@@ -6,7 +6,6 @@ import org.ismail.gestiondescommmendsfournisseurspringboot.dto.CommandeRequestDT
 import org.ismail.gestiondescommmendsfournisseurspringboot.dto.CommandeResponseDTO;
 import org.ismail.gestiondescommmendsfournisseurspringboot.dto.UpdateStatusRequest;
 import org.ismail.gestiondescommmendsfournisseurspringboot.service.CommendeServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Commandes", description = "API de gestion des commandes fournisseurs")
 public class CommendeController {
 
-    @Autowired
-    public CommendeServiceImpl commendeServiceImpl;
+    public final CommendeServiceImpl commendeServiceImpl;
+
+    public CommendeController(CommendeServiceImpl commendeServiceImpl) {
+        this.commendeServiceImpl = commendeServiceImpl;
+    }
 
     @Operation(summary = "Create Commande", description = "Create a new order with multiple products using CUMP pricing method")
     @PostMapping
@@ -46,7 +48,7 @@ public class CommendeController {
     @Operation(summary = "Update Commande Status", description = "Update order status (PENDING, CONFIRMED, DELIVERED, CANCELLED)")
     @PatchMapping("/{id}/status")
     public CommandeResponseDTO updateCommendeStatus(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
-        return commendeServiceImpl.updateCommendeStatus(id, request.getStatus());
+        return commendeServiceImpl.updateCommendeStatus(id, request.status());
     }
 
 }

@@ -1,19 +1,17 @@
 package org.ismail.gestiondescommmendsfournisseurspringboot.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Entity(name = "commande_produit")
-@Data
+@Entity
+@Table(name = "commande_produit")
 @Getter
 @Setter
+@Accessors(chain = true, fluent = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommandeProduit {

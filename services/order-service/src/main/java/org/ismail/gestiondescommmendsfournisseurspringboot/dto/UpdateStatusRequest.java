@@ -1,17 +1,6 @@
 package org.ismail.gestiondescommmendsfournisseurspringboot.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.ismail.gestiondescommmendsfournisseurspringboot.Enum.CommendeStatus;
+import org.ismail.gestiondescommmendsfournisseurspringboot.enums.CommendeStatus;
 
-@Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class UpdateStatusRequest {
-    private CommendeStatus status;
+public record UpdateStatusRequest(CommendeStatus status) {
 }
