@@ -13,7 +13,7 @@
            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- Activer le scan des annotations Spring pour les contrôleurs uniquement -->
-    <context:component-scan base-package="com.ismail.Authontification.controller"/>
+    <context:component-scan base-package="com.ismail.authentification.controller"/>
     <context:annotation-config/>
     <mvc:annotation-driven />
     <context:property-placeholder

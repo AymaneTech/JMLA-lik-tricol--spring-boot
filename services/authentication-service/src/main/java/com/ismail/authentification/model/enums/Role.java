@@ -1,4 +1,4 @@
-package com.ismail.Authontification.model.enums;
+package com.ismail.authentification.model.enums;
 
 public enum Role {
     FOURNISSEUR,

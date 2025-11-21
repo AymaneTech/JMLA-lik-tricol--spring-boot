@@ -1,15 +1,17 @@
-package com.ismail.Authontification.model;
+package com.ismail.authentification.model;
 
-import com.ismail.Authontification.model.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ismail.authentification.model.enums.Role;
+import jakarta.persistence.*;
 
-@Entity(name = "users")
+import static jakarta.persistence.EnumType.*;
+
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
+    @GeneratedValue
     private String id;
 
     @Column(nullable = false, unique = true)
@@ -19,14 +21,18 @@ public class User {
     private String userName;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)
-    @Enumerated
+    @Enumerated(STRING)
     private Role role;
 
     public User() {
+        // for JPA usage
     }
+
+    public User(String email, String userName, String password, Role role) {}
 
     public String getId() {
         return id;
